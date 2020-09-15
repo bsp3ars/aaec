@@ -1,6 +1,7 @@
 # AAEC (Artists, Authors, Editors & Composers)
 
 ![CircleCI](https://img.shields.io/circleci/build/github/uclibs/aaec)
+[![Coverage Status](https://coveralls.io/repos/github/uclibs/aaec/badge.svg?branch=master)](https://coveralls.io/github/uclibs/aaec?branch=master)
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.

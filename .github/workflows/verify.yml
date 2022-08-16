@@ -1,0 +1,43 @@
+name: Verify
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    container: cimg/ruby:2.7.5-browsers
+
+    env:
+      BUNDLE_PATH: vendor/bundle
+      BUNDLE_JOBS: 4
+      BUNDLE_RETRY: 3
+      RAILS_ENV: test
+      RACK_ENV: test
+      SPEC_OPTS: --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec.xml --format progress
+      WORKING_PATH: /tmp
+      UPLOAD_PATH: /tmp
+      CACHE_PATH: /tmp/cache
+      COVERALLS_PARALLEL: true
+
+    steps:
+      # This Docker file changes sets USER to circleci instead of using the default user, so we need to update file permissions for this image to work on GH Actions.
+      # See https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners#docker-container-filesystem
+
+      - name: Setup file system permissions
+        run: sudo chmod -R 777 $GITHUB_WORKSPACE /github /__w/_temp
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: | 
+          bundle install --path vendor/bundle
+          sudo apt-get update
+          sudo apt-get install xvfb libfontconfig wkhtmltopdf
+      - name: Setup database
+        run: | 
+          bundle exec rake db:create
+          bundle exec rake db:schema:load
+      - name: Run Rubocop
+        run: | 
+          gem install rubocop
+          bundle exec rubocop
+      - name: Run tests
+        run: bundle exec rake

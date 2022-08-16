@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe AdminController, type: :controller do
   let(:valid_attributes) do
-    { 'username' => ENV['ADMIN_USERNAME'], 'password' => ENV['ADMIN_PASSWORD'] }
+    { 'username' => ENV.fetch('ADMIN_USERNAME'), 'password' => ENV.fetch('ADMIN_PASSWORD') }
   end
 
   let(:invalid_attributes) do

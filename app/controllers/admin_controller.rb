@@ -45,6 +45,6 @@ class AdminController < ApplicationController
   private
 
   def check_credentials(username, password)
-    username == ENV['ADMIN_USERNAME'] && password == ENV['ADMIN_PASSWORD']
+    username == ENV.fetch('ADMIN_USERNAME') && password == ENV.fetch('ADMIN_PASSWORD')
   end
 end

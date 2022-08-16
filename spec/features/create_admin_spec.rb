@@ -27,8 +27,8 @@ describe 'Create Admin', :feature, js: true do
     visit manage_path
 
     # Admin Login Page
-    fill_in('username', with: ENV['ADMIN_USERNAME'])
-    fill_in('password', with: ENV['ADMIN_PASSWORD'])
+    fill_in('username', with: ENV.fetch('ADMIN_USERNAME'))
+    fill_in('password', with: ENV.fetch('ADMIN_PASSWORD'))
     click_on('Submit')
 
     expect(page).to have_current_path(Rails.application.routes.url_helpers.publications_path)
